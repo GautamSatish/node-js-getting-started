@@ -48,15 +48,16 @@ router.route('/tasks')
 
 	// create a new task (accessed at POST http://localhost:8080/tasks)
 	.post(function(req, res) {
-          taskCtr++;
           var task = {
             uri: '/tasks/'+taskCtr,
+            index: taskCtr,
             label: req.body.label + '',
             status: req.body.status || 'ok',
             user : req.body.user || 'temp'
           }
           tasks.addTask(task);
 	  res.json({ message: 'Task '+ taskCtr + ' created!'});
+          taskCtr++;
 	})
 
 	// get all the tasks (accessed at GET http://localhost:8080/tasks)
