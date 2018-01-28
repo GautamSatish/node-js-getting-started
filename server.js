@@ -6,6 +6,7 @@ var express    = require('express');
 var bodyParser = require('body-parser');
 var app        = express();
 var morgan     = require('morgan');
+var cors = require('cors');
 
 // configure app
 app.use(morgan('dev')); // log requests to the console
@@ -13,6 +14,9 @@ app.use(morgan('dev')); // log requests to the console
 // configure body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// use CORS to allow local host connects
+app.use(cors());
 
 var port     = process.env.PORT || 8080; // set our port
 var taskCtr  = 0;
