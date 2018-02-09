@@ -1,37 +1,37 @@
-// uri: task
+// index: task
 let _tasks = {};
 
 function getTasks (user) {
   let result = [];
 
-  for (var uri in _tasks) {
-    if (_tasks.hasOwnProperty(uri)) {
+  for (var index in _tasks) {
+    if (_tasks.hasOwnProperty(index)) {
 
       if (user) {
-        if (user === _tasks[uri].user)
-          result.push(_tasks[uri]);
+        if (user.toLowerCase() === _tasks[uri].user.toLowerCase())
+          result.push(_tasks[index]);
       }
-      else result.push(_tasks[uri]);
+      else result.push(_tasks[index]);
     }
   } 
 
   return result;
 }
 
-function getTask (uri) {
-  return _tasks[uri];
+function getTask (index) {
+  return _tasks[index];
 }
 
 function addTask (task) {
-  _tasks[task.uri] = task;
+  _tasks[task.index] = task;
 }
 
 function updateTask (task) {
-  _tasks[task.uri] = task;
+  _tasks[task.index] = task;
 }
 
-function deleteTask (uri) {
-  delete _tasks[uri];
+function deleteTask (index) {
+  delete _tasks[index];
 }
 
 var Tasks = {
@@ -43,5 +43,3 @@ var Tasks = {
 }
 
 module.exports = Tasks;
-
-

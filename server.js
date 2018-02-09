@@ -1,6 +1,3 @@
-// BASE SETUP
-// =============================================================================
-
 // call the packages we need
 var express    = require('express');
 var bodyParser = require('body-parser');
@@ -9,7 +6,7 @@ var morgan     = require('morgan');
 var cors = require('cors');
 
 // configure app
-app.use(morgan('dev')); // log requests to the console
+app.use(morgan('tiny')); // log requests to the console
 
 // configure body parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,28 +15,24 @@ app.use(bodyParser.json());
 // use CORS to allow local host connects
 app.use(cors());
 
-var port     = process.env.PORT || 8080; // set our port
+var port     = process.env.PORT || 8080; // set the listening port
 var taskCtr  = 0;
 
 // Import Task APIs
 var tasks     = require('./tasks');
-
-// ROUTES FOR OUR API
-// =============================================================================
 
 // create our router
 var router = express.Router();
 
 // middleware to use for all requests
 router.use(function(req, res, next) {
-	// do logging
-	console.log('Something is happening.');
+	// do debugging here
 	next();
 });
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
-	res.json({ message: 'hooray! welcome to our api!' });	
+	res.json({ message: 'Welcome to the To-Do api!' });	
 });
 
 // on routes that end in /tasks
@@ -53,7 +46,7 @@ router.route('/tasks')
             index: taskCtr,
             label: req.body.label + '',
             status: req.body.status || 'ok',
-            user : req.body.user || 'temp'
+            user : req.body.user || 'gautam'
           }
           tasks.addTask(task);
 	  res.json({ message: 'Task '+ taskCtr + ' created!'});
@@ -75,27 +68,31 @@ router.route('/tasks/:task_id')
 
 	// get the task with that id
 	.get(function(req, res) {
+          const index = req.params.task_id;
           var task;
-          task = tasks.getTask(req.url);
+          task = tasks.getTask(index);
           res.json(task);
 	})
 
 	// update the task with this id
 	.put(function(req, res) {
+          const index = req.params.task_id;
           var task = {
             uri: req.url,
+            index: index,
             label: req.body.label + '',
             status: req.body.status || 'ok',
             user : req.body.user || 'temp'
           }
           tasks.updateTask(task);
-          res.json({message: 'Task ' + req.url + ' edited!'});
+          res.json({message: 'Task ' + index + ' edited!'});
 	})
 
 	// delete the task with this id
 	.delete(function(req, res) {
-          tasks.deleteTask(req.url);
-	  res.json({ message: 'Task ' + req.url + ' deleted!' });
+          const index = req.params.task_id;
+          tasks.deleteTask(index);
+	  res.json({ message: 'Task ' + index + ' deleted!' });
 	});
 
 
