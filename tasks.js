@@ -8,7 +8,7 @@ function getTasks(user) {
     if (_tasks.hasOwnProperty(index)) {
 
       if (user) {
-        if (user.toLowerCase() === _tasks[uri].user.toLowerCase())
+        if (user.toLowerCase() === _tasks[index].user.toLowerCase())
           result.push(_tasks[index]);
       } else result.push(_tasks[index]);
     }
